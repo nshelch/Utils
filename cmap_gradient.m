@@ -23,15 +23,26 @@ for vv = 1:length(varargin)
     end
 end
 
-low_cmap = [linspace(low_color(1), mid_color(1), ceil(ncolors * prop_low))',...
-    linspace(low_color(2), mid_color(2), ceil(ncolors * prop_low))',...
-    linspace(low_color(3), mid_color(3), ceil(ncolors * prop_low))'];
+num_low = ceil(ncolors * prop_low);
+num_high = ceil(ncolors * prop_high);
 
-high_cmap = [linspace(mid_color(1), high_color(1), ceil(ncolors * prop_high))',...
-    linspace(mid_color(2), high_color(2), ceil(ncolors * prop_high))',...
-    linspace(mid_color(3), high_color(3), ceil(ncolors * prop_high))'];
+if mod(ncolors, 2) == 0
+    num_low = num_low + 1;
+end
 
-cmap = [low_cmap(1:end - 1, :); high_cmap];
+low_cmap = [linspace(low_color(1), mid_color(1), num_low)',...
+    linspace(low_color(2), mid_color(2), num_low)',...
+    linspace(low_color(3), mid_color(3), num_low)'];
+
+high_cmap = [linspace(mid_color(1), high_color(1), num_high)',...
+    linspace(mid_color(2), high_color(2), num_high)',...
+    linspace(mid_color(3), high_color(3), num_high)'];
+
+cmap = [low_cmap; high_cmap];
+[~, idx, ~] = unique(cmap, 'rows');
+idx = sort(idx);
+
+cmap = cmap(idx, :);
 
 if any(cmap > 1)
     cmap = cmap ./ 255;
