@@ -43,7 +43,7 @@
 %
 %     [4] "X11 color names" http://en.wikipedia.org/wiki/X11_color_names
 
-function rgb = rgb(s)
+function rgb = rgbt(s)
   persistent num name
   if isempty(num) % First time rgb is called
     [num,name] = getcolors();

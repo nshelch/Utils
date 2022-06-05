@@ -8,6 +8,8 @@ function h = generateHeatmap(data, varargin)
 plotOutline = 0;
 cmap = [];
 clims = [];
+cmapType = 'motor';
+
 for vv = 1:2:length(varargin)
     if strcmpi(varargin{vv}, 'cmap')
         cmap = varargin{vv + 1};
@@ -15,6 +17,8 @@ for vv = 1:2:length(varargin)
         clims = varargin{vv + 1};
     elseif strcmpi(varargin{vv}, 'plotOutline')
         plotOutline = varargin{vv + 1};
+    elseif strcmpi(varargin{vv}, 'cmapType')
+        cmapType = varargin{vv + 1};
     else
         warning('Unrecognized argument: %s', varargin{vv}) 
     end
@@ -25,7 +29,7 @@ set(h, 'AlphaData', ~isnan(data))
 axis off
 
 if ~isempty(cmap)
-    colormap(gca, cmap);
+    colormap(cmap);
 end
 
 if ~isempty(clims)
@@ -33,18 +37,27 @@ if ~isempty(clims)
 end
 
 if plotOutline
-    hold on
-    % Big Outer Lines
-    plot([1.5 9.5], [10.5, 10.5], 'k', 'LineWidth', 1); % bottom
-    plot([1.5 9.5], [.5, .5], 'k', 'LineWidth', 1); % top
-    plot([.5 .5], [1.5, 9.5], 'k', 'LineWidth', 1); % left
-    plot([10.5 10.5], [1.5, 9.5], 'k', 'LineWidth', 1); % right
-    
-    % Corners
-    plot([.5 1.5], [9.5, 9.5], 'k', 'LineWidth', 1); plot([1.5 1.5], [9.5, 10.5], 'k', 'LineWidth', 1); % bottom left
-    plot([9.5 10.5], [9.5, 9.5], 'k', 'LineWidth', 1); plot([9.5 9.5], [9.5, 10.5], 'k', 'LineWidth', 1); % bottom right
-    plot([.5 1.5], [1.5, 1.5], 'k', 'LineWidth', 1); plot([1.5 1.5], [1.5, 0.5], 'k', 'LineWidth', 1); % top left
-    plot([9.5 10.5], [1.5, 1.5], 'k', 'LineWidth', 1); plot([9.5 9.5], [1.5, 0.5], 'k', 'LineWidth', 1); % top 
+    if strcmpi(cmapType, 'motor')
+        hold on
+        % Big Outer Lines
+        plot([1.5 9.5], [10.5, 10.5], 'k', 'LineWidth', 1); % bottom
+        plot([1.5 9.5], [.5, .5], 'k', 'LineWidth', 1); % top
+        plot([.5 .5], [1.5, 9.5], 'k', 'LineWidth', 1); % left
+        plot([10.5 10.5], [1.5, 9.5], 'k', 'LineWidth', 1); % right
+
+        % Corners
+        plot([.5 1.5], [9.5, 9.5], 'k', 'LineWidth', 1); plot([1.5 1.5], [9.5, 10.5], 'k', 'LineWidth', 1); % bottom left
+        plot([9.5 10.5], [9.5, 9.5], 'k', 'LineWidth', 1); plot([9.5 9.5], [9.5, 10.5], 'k', 'LineWidth', 1); % bottom right
+        plot([.5 1.5], [1.5, 1.5], 'k', 'LineWidth', 1); plot([1.5 1.5], [1.5, 0.5], 'k', 'LineWidth', 1); % top left
+        plot([9.5 10.5], [1.5, 1.5], 'k', 'LineWidth', 1); plot([9.5 9.5], [1.5, 0.5], 'k', 'LineWidth', 1); % top
+    else
+        hold on
+        % Big Outer Lines
+        plot([0.5 6.5], [10.5 10.5], 'k', 'LineWidth', 1); % bottom
+        plot([0.5 6.5], [.5, .5], 'k', 'LineWidth', 1); % top
+        plot([0.5 0.5], [0.5 10.5], 'k', 'LineWidth', 1); % left
+        plot([6.5 6.5], [0.5 10.5], 'k', 'LineWidth', 1); % right
+    end
 end
 
 end

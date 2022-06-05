@@ -11,21 +11,21 @@ for vv = 1:2:numel(varargin)
        fc = varargin{vv + 1};
    elseif strcmpi(varargin{vv}, 'ChannelLabels')
        plotChannelLabels = varargin{vv + 1};
+   elseif strcmpi(varargin{vv}, 'Parent')
+       figParent = varargin{vv + 1};
    end
 end
 
-arrayCmap = [rgb(224, 224, 224); fc];
+arrayCmap = [rgb('SlateGrey'); fc];
 
 % Create the binary array of channels
 binaryArray = double(~isnan(arrayInfo.GridLoc{arrayIdx}));
 binaryArray(binaryArray == 0) = NaN;
 
 % Find the electrode(s) of interest
-for ee = 1:length(electrode)
-    channel = arrayInfo.ChanIndices{arrayIdx}(ismember(arrayInfo.ChanToElectrode{arrayIdx}, electrode(ee)));
-    eIdx = ismember(arrayInfo.GridLoc{arrayIdx}, channel);
-    binaryArray(eIdx) = max(binaryArray(:)) + 1;
-end
+channel = arrayInfo.ChanIndices{arrayIdx}(ismember(arrayInfo.ChanToElectrode{arrayIdx}, electrode));
+eIdx = ismember(arrayInfo.GridLoc{arrayIdx}, channel);
+binaryArray(eIdx) = ones(1, length(electrode)) + [1:length];
 
 % Plot these bad boys
 h = imagesc(binaryArray);

@@ -19,7 +19,7 @@ set(gca, 'YDir', 'reverse')
 for rr = 1:numRows
     for cc = 1:numCols
         if data(rr, cc) == 1
-            text(cc, rr, '\ast', 'FontSize', fsize, 'Color', textColor, 'FontWeight', fweight, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle', 'Interpreter', 'tex')
+            text(cc, rr, '$\star$', 'FontSize', fsize, 'Color', textColor, 'FontWeight', fweight, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle', 'Interpreter', 'latex')
         end
     end
 end
